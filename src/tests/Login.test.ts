@@ -1,10 +1,18 @@
-import {suite, test} from 'mocha-typescript';
-import {AbstractTestBase} from '../lib';
+import {AllPages} from 'src/pages';
+import {Browser} from '../lib';
 
-@suite
-class LoginTest extends AbstractTestBase {
-  @test()
-  public async loginTest(): Promise<void> {
-    await this.pages.login.logInAs('tomsmith', 'SuperSecretPassword!');
-  }
-}
+describe('Login', () => {
+  let pages: AllPages;
+
+  before(() => {
+    pages = new AllPages(new Browser('chrome'));
+  });
+
+  after(async () => {
+    await pages.dispose();
+  });
+
+  it('should sign in succssfully', async () => {
+    await pages.login.logInAs('tomsmith', 'SuperSecretPassword!');
+  });
+});
